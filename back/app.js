@@ -20,9 +20,18 @@ app.get("/", (request, response) => {
 });
 
 //POST
-app.post("/test", (request, response) => {
-  console.log(response.body);
-  response.send("thanks for the request"); 
+app.post("/test", async (request, response) => {
+  const article = new Article({
+title: request.body.title,
+paragraph: request.body.paragraph
+  }); 
+  try {
+      const savedArticle = await article.save();
+      response.json(savedArticle);
+  }catch(err) {
+      response.json({message: err});
+  }
+
 });
 
 //Listen to the Server

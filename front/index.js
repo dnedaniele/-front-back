@@ -12,7 +12,21 @@
    
   ] */
 
+// Fetch from Server
 
+fetch("http://localhost:3500/test", {
+    method: "get",
+    mode: "cors"
+  } ).then((response) => {
+    console.log(response)
+    return response.json()
+    
+  }).then((jsonData) => {
+
+      console.log("jsonData", jsonData)
+    });
+
+    renderArticle(jsonData); 
 
 
 //Render Articles
@@ -34,18 +48,3 @@ function renderArticle(article) {  // renderJson Data
   document.getElementById("prod-list-cont").appendChild(articleContainer);
 }
 
-// Fetch from Server
-
-fetch("http://localhost:3500/test", {
-    method: "get",
-    mode: "cors"
-  } ).then((response) => {
-    console.log(response)
-    return response.json()
-    
-  }).then((jsonData) => {
-
-      console.log("jsonData", jsonData)
-    });
-
-    renderArticle(jsonData); 
