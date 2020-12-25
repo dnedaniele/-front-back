@@ -44,10 +44,32 @@ app.get("/products/:productId", (request, response) => {
     response.json(product);
   });
 
-  app.post('/products', (request, response) => {
+  //POST
+
+  app.post('/products/:productId', (request, response) => {
     const product = request.body;  //take the product
     productList.push(product); // add product to product list
     response.json(product); //send the product in the response
+  });
+
+  //PUT
+
+  app.put('/products/', (request, response) => {
+
+    const productId = request.params.productId;
+    const updatedProduct = request.body;
+
+    productList.forEach((prod, index)=>{
+        if(prod.id === productId){
+productList[index] = {
+    
+}
+        }
+    })
+
+    const product = request.body;  
+    productList.push(product); 
+    response.json(product); 
   });
 
 
