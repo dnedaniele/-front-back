@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 
 
-const productList = [
+ const productList = [
   {
     id: "product_1",
     name: "Milk",
@@ -14,7 +14,7 @@ const productList = [
     name: "Muffin",
     price: 7,
   },
-];
+]; 
 
 
 app.use(bodyParser.json());
