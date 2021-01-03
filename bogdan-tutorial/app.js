@@ -1,9 +1,16 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const expressWinston = require("express-winston");
+const winston = require("winston");
+
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 
- const productList = [
+
+const productList = [
   {
     id: "product_1",
     name: "Milk",
@@ -14,15 +21,37 @@ const bodyParser = require("body-parser");
     name: "Muffin",
     price: 7,
   },
-]; 
+];
 
-
+//Middlewares
 app.use(bodyParser.json());
 
+//API Document - Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// middleware to check the request Object
+/* app.use((req, res, next) => {
+  console.info({
+    date: new Date(),
+    path: req.path,
+    host: req.hostname,
+    fullRequest: req,
+  });
+  next();
+}); */
+
+//express-winston
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json()
+  )
+}));
+
 // Store the product list in memory:
-
-
-
 app.get("/productList", (request, response) => {
   response.send(productList);
 });
@@ -70,8 +99,8 @@ app.put("/products/:productId", (request, response) => {
 
 // DELETE
 
-app.delete('/products/:productId', (request, response)=>{
-    const productId = request.params.productId;
+app.delete("/products/:productId", (request, response) => {
+  const productId = request.params.productId;
 
   productList.forEach((prod, index) => {
     if (prod.id === productId) {
